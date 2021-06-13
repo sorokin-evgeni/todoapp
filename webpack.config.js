@@ -9,15 +9,21 @@ module.exports = {
     },
     plugins: [new HtmlWebpackPlugin()],
     module: {
-        rules: [{
-            test: /\.tsx?$/,
-            use: 'ts-loader',
-        }]
+        rules: [
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+            },
+            {
+                test: /\.(css|less)/,
+                use: ['style-loader', 'css-loader', 'less-loader'],
+            },
+        ],
     },
     devServer: {
-        contentBase: path.resolve(__dirname, 'dist')
+        contentBase: path.resolve(__dirname, 'dist'),
     },
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
-    }
+        extensions: ['.ts', '.tsx', '.js'],
+    },
 };
