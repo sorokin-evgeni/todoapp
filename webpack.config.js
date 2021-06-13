@@ -5,7 +5,7 @@ module.exports = {
     entry: './src/ui/index.tsx',
     output: {
         filename: 'main.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist', 'static'),
     },
     plugins: [new HtmlWebpackPlugin({
         template: 'src/ui/index.ejs'
