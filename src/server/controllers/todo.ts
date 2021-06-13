@@ -47,4 +47,15 @@ export function todoFactory(app: Application) {
             res.send(mergedTodo);
         }
     });
+
+    app.delete('/api/todo/:id', (req, res) => {
+        const todoIndex = todos.findIndex(({id}) => id === req.params.id);
+        if (todoIndex === -1) {
+            res.sendStatus(404);
+            res.end();
+        } else {
+            todos.splice(todoIndex, 1);
+            res.sendStatus(200);
+        }
+    });
 }

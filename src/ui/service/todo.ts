@@ -1,56 +1,37 @@
 import {TodoItem} from '../model/todo';
 
-let id = 100;
-const store: {list: TodoItem[]} = {
-    list: [{
-        id: '900',
-        name: 'Test Item'
-    }],
-};
+const tojson = (response: Response) => response.json();
 
-export const fetchList = () => Promise.resolve(store.list);
+export const fetchList = () => {
+    //Promise.resolve(store.list)
+    return fetch('/api/todo', {}).then(tojson);
+};
 export const fetchItem = (request: {id: TodoItem['id']}) => {
-    const item = store.list.find((item) => item.id === request.id);
-    return item ? Promise.resolve(item) : Promise.reject({
-        message: 'Not found',
-        code: 404
-    });
+    return fetch(`/api/todo/${request.id}`, {}).then(tojson);
 }
 
 export const createItem = (data: Omit<TodoItem, 'id'>) => {
-    id++;
-    const newItem = {
-        id: `${id}`,
-        created: +new Date(),
-        ...data,
-    };
-    store.list.push(newItem);
-    return Promise.resolve(newItem);
+    return fetch('/api/todo', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }).then(tojson)
 }
 
 export const updateItem = (data: TodoItem) => {
-    const index = store.list.findIndex(({id}) => id === data.id);
-    if (index === -1) {
-        return Promise.reject({
-            message: 'Not found',
-            code: 404
-        });
-    }
-    store.list[index] = {
-        ...data,
-        updated: +new Date(),
-    };
-    return Promise.resolve(data);
+    return fetch(`/api/todo/${data.id}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }).then(tojson)
 }
 
 export const deleteItem = (data: TodoItem) => {
-    const index = store.list.findIndex(({id}) => id === data.id);
-    if (index === -1) {
-        return Promise.reject({
-            message: 'Not found',
-            code: 404
-        });
-    }
-    store.list.splice(index, 1);
-    return Promise.resolve();
+    return fetch(`/api/todo/${data.id}`, {
+        method: 'delete',
+    })
 }
