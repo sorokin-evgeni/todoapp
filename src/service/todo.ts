@@ -42,3 +42,15 @@ export const updateItem = (data: TodoItem) => {
     };
     return Promise.resolve(data);
 }
+
+export const deleteItem = (data: TodoItem) => {
+    const index = store.list.findIndex(({id}) => id === data.id);
+    if (index === -1) {
+        return Promise.reject({
+            message: 'Not found',
+            code: 404
+        });
+    }
+    store.list.splice(index, 1);
+    return Promise.resolve();
+}
