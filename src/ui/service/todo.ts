@@ -1,6 +1,5 @@
 import {TodoItem} from '../model/todo';
-
-const tojson = (response: Response) => response.json();
+import {tojson} from './utils';
 
 export const fetchList = () => {
     //Promise.resolve(store.list)
